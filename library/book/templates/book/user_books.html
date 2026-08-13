@@ -4,19 +4,18 @@
 {% block title %}Книги користувача {{ target_user.email }}{% endblock %}
 
 {% block extra_css %}
-    <!-- Використовуємо стилі кабінету для таблиць -->
-    <link rel="stylesheet" href="{% static 'librarian_dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'author/css/librarian_dashboard.css' %}">
 {% endblock %}
 
 {% block content %}
-    <div style="margin-top: 10px;">
-        <a href="{% url 'librarian_dashboard' %}" style="color: #4a90e2; text-decoration: none; font-size: 14px; font-weight: 600;">
+    <div>
+        <a href="{% url 'librarian_dashboard' %}">
             ← Назад до Кабінету
         </a>
         <br><br>
         
         <h1>Книги на руках у користувача</h1>
-        <p style="color: #64748b; font-size: 16px; margin-bottom: 25px;">
+        <p>
             Читач: <strong>{{ target_user.first_name|default:"" }} {{ target_user.last_name|default:"" }}</strong> ({{ target_user.email }})
         </p>
 
@@ -27,7 +26,7 @@
                     <th>Назва книги</th>
                     <th>Дата взяття</th>
                     <th>Планова дата повернення</th>
-                    <th style="text-align: center;">Статус</th>
+                    <th>Статус</th>
                 </tr>
             </thead>
             <tbody>
@@ -38,14 +37,12 @@
                         <td>{{ order.created_at|date:"d.m.Y H:i" }}</td>
                         <td>{{ order.plated_end_at|date:"d.m.Y" }}</td>
                         <td style="text-align: center;">
-                            <span style="color: #e67e22; font-weight: 600; background-color: #ffedd5; padding: 4px 10px; border-radius: 4px; font-size: 13px;">
-                                На руках
-                            </span>
+                            <span>На руках</span>
                         </td>
                     </tr>
                 {% empty %}
                     <tr>
-                        <td colspan="5" style="padding: 30px; text-align: center; color: #64748b;">
+                        <td colspan="5">
                             Цей користувач повернув усі книги. На руках нічого немає.
                         </td>
                     </tr>

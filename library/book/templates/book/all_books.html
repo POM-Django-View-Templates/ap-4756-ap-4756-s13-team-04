@@ -4,21 +4,19 @@
 {% block title %}Список книг{% endblock %}
 
 {% block extra_css %}
-    <!-- Використовуємо стилі кабінету, оскільки там вже є гарні таблиці та форми -->
-    <link rel="stylesheet" href="{% static 'librarian_dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'author/css/librarian_dashboard.css' %}">
 {% endblock %}
 
 {% block content %}
     <h1>Каталог книг</h1>
 
-    <!-- Форма фільтрації -->
     <form method="GET" action="{% url 'all_books' %}" class="form-create">
         <label>Пошук за назвою:
             <input type="text" name="title" value="{{ title_query }}" placeholder="Введіть назву...">
         </label>
         
         <label>Фільтр за автором:
-            <select name="author" style="padding: 8px; border-radius: 6px; border: 1px solid #cbd5e1;">
+            <select name="author">
                 <option value="">Усі автори</option>
                 {% for author in all_authors %}
                     <option value="{{ author.id }}" {% if author_query == author.id|stringformat:"i" %}selected{% endif %}>
@@ -28,11 +26,10 @@
             </select>
         </label>
         
-        <button type="submit" class="btn-create" style="background-color: #2ecc71;">Фільтрувати</button>
+        <button type="submit" class="btn-create">Фільтрувати</button>
         <a href="{% url 'all_books' %}" class="btn-reset">Скинути</a>
     </form>
 
-    <!-- Таблиця книг -->
     <table>
         <thead>
             <tr>
@@ -57,12 +54,12 @@
                     </td>
                     <td>{{ book.count }} шт.</td>
                     <td>
-                        <a href="{% url 'book_detail' book.id %}" style="color: #4a90e2; font-weight: 600; text-decoration: none;">Переглянути</a>
+                        <a href="{% url 'book_detail' book.id %}">Переглянути</a>
                     </td>
                 </tr>
             {% empty %}
                 <tr>
-                    <td colspan="5" style="text-align: center; color: #7f8c8d;">Книг за такими критеріями не знайдено.</td>
+                    <td colspan="5">Книг за такими критеріями не знайдено.</td>
                 </tr>
             {% endfor %}
         </tbody>
