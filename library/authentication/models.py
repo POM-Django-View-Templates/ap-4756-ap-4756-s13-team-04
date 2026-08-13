@@ -230,3 +230,21 @@ class CustomUser(AbstractBaseUser):
         returns str role name
         """
         return ROLE_CHOICES[self.role][1]
+
+    @property
+    def is_staff(self):
+        """Returns True if the user is a librarian (for Django admin)"""
+        return self.role == 1
+
+    @property
+    def is_superuser(self):
+        """Returns True for superusers"""
+        return self.role == 1
+
+    def has_perm(self, perm, obj=None):
+        """Checks permissions (required for admin)"""
+        return self.role == 1
+
+    def has_module_perms(self, app_label):
+        """Checks access to app modules (required for admin)"""
+        return self.role == 1

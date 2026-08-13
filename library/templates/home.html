@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Електронна бібліотека — Головна{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'home.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="home-container">
+        <h1>Ласкаво просимо до нашої бібліотеки!</h1>
+        <p>Сучасна система керування книгами, авторами та замовленнями.</p>
+        <div class="hero-image-wrapper">
+            <img src="{% static '1.jpeg' %}" alt="Обкладинка бібліотеки" class="hero-image">
+        </div>
+    </div>
+{% endblock %}

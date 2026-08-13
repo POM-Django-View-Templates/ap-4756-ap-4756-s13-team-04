@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Кабінет бібліотекаря{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'librarian_dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+    <h1>Управління авторами</h1>
+
+    <h3>Додати нового автора</h3>
+    <form method="POST" action="{% url 'librarian_dashboard' %}" class="form-create">
+        {% csrf_token %}
+        <label>Прізвище: <input type="text" name="surname" required></label>
+        <label>Ім'я: <input type="text" name="name" required></label>
+        <label>По батькові: <input type="text" name="patronymic"></label>
+        <button type="submit" class="btn-create">Створити</button>
+    </form>
+    <hr>
+
+    <h3>Список авторів</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Прізвище</th>
+                <th>Ім'я</th>
+                <th>По батькові</th>
+                <th>Дія</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for author in authors %}
+                <tr>
+                    <td>{{ author.id }}</td>
+                    <td>{{ author.surname }}</td>
+                    <td>{{ author.name }}</td>
+                    <td>{{ author.patronymic|default:"—" }}</td>
+                    <td>
+                        {% if author.books.exists %}
+                            <span class="linked-badge">Наявні пов'язані книги</span>
+                        {% else %}
+                            <form method="POST" action="{% url 'delete_author' author.id %}" style="display:inline;" onsubmit="return confirm('Ви впевнені, що хочете видалити цього автора?');">
+                                {% csrf_token %}
+                                <button type="submit">Видалити</button>
+                            </form>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5">Авторів не знайдено.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+
+    <h3>Список бібліотекарів</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Прізвище та Ім'я</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for librarian in librarians %}
+                <tr>
+                    <td>{{ librarian.id }}</td>
+                    <td>{{ librarian.last_name }} {{ librarian.first_name }}</td>
+                    <td>{{ librarian.email }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="3">Бібліотекарів не знайдено.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

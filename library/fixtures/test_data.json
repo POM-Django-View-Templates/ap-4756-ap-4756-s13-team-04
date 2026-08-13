@@ -1,0 +1,60 @@
+[
+  {
+    "model": "book.book",
+    "pk": 1,
+    "fields": {
+      "name": "Кобзар",
+      "description": "Збірка поетичних творів великого Кобзаря.",
+      "count": 5
+    }
+  },
+  {
+    "model": "book.book",
+    "pk": 2,
+    "fields": {
+      "name": "Захар Беркут",
+      "description": "Історична повість про боротьбу проти монгольської навали.",
+      "count": 8
+    }
+  },
+  {
+    "model": "author.author",
+    "pk": 1,
+    "fields": {
+      "name": "Тарас",
+      "surname": "Шевченко",
+      "patronymic": "Григорович",
+      "books": [1]
+    }
+  },
+  {
+    "model": "author.author",
+    "pk": 2,
+    "fields": {
+      "name": "Іван",
+      "surname": "Франко",
+      "patronymic": "Якович",
+      "books": [2]
+    }
+  },
+  {
+    "model": "author.author",
+    "pk": 3,
+    "fields": {
+      "name": "Леся",
+      "surname": "Українка",
+      "patronymic": "Петрівна",
+      "books": []
+    }
+  },
+  {
+    "model": "author.author",
+    "pk": 4,
+    "fields": {
+      "name": "Ліна",
+      "surname": "Костенко",
+      "patronymic": "Василівна",
+      "books": []
+    }
+  }
+]
