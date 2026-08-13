@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ book.name }}{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'book/css/book_detail.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="book-card">
+        <a href="{% url 'all_books' %}" class="back-link">← Назад до каталогу</a>
+        
+        <h1 class="book-title">«{{ book.name }}»</h1>
+        
+        <div class="book-meta">
+            <p class="meta-item">
+                <strong>Автори:</strong> 
+                {% for author in book.authors.all %}
+                    {{ author.surname }} {{ author.name }}{% if not forloop.last %}, {% endif %}
+                {% empty %}
+                    Невідомий автор
+                {% endfor %}
+            </p>
+
+            <p class="meta-item">
+                <strong>Доступна кількість:</strong> 
+                <span class="count-badge">{{ book.count }} екз.</span>
+            </p>
+        </div>
+
+        <h3 class="book-description-title">Опис книги:</h3>
+        <p class="book-description-text">
+            {{ book.description|default:"Опис для цієї книги відсутній." }}
+        </p>
+    </div>
+{% endblock %}

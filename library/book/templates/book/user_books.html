@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Книги користувача {{ target_user.email }}{% endblock %}
+
+{% block extra_css %}
+    <!-- Використовуємо стилі кабінету для таблиць -->
+    <link rel="stylesheet" href="{% static 'librarian_dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div style="margin-top: 10px;">
+        <a href="{% url 'librarian_dashboard' %}" style="color: #4a90e2; text-decoration: none; font-size: 14px; font-weight: 600;">
+            ← Назад до Кабінету
+        </a>
+        <br><br>
+        
+        <h1>Книги на руках у користувача</h1>
+        <p style="color: #64748b; font-size: 16px; margin-bottom: 25px;">
+            Читач: <strong>{{ target_user.first_name|default:"" }} {{ target_user.last_name|default:"" }}</strong> ({{ target_user.email }})
+        </p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID книги</th>
+                    <th>Назва книги</th>
+                    <th>Дата взяття</th>
+                    <th>Планова дата повернення</th>
+                    <th style="text-align: center;">Статус</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                    <tr>
+                        <td>{{ order.book.id }}</td>
+                        <td><strong>«{{ order.book.name }}»</strong></td>
+                        <td>{{ order.created_at|date:"d.m.Y H:i" }}</td>
+                        <td>{{ order.plated_end_at|date:"d.m.Y" }}</td>
+                        <td style="text-align: center;">
+                            <span style="color: #e67e22; font-weight: 600; background-color: #ffedd5; padding: 4px 10px; border-radius: 4px; font-size: 13px;">
+                                На руках
+                            </span>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="5" style="padding: 30px; text-align: center; color: #64748b;">
+                            Цей користувач повернув усі книги. На руках нічого немає.
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

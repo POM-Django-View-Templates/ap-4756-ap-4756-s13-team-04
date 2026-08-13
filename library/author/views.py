@@ -9,7 +9,7 @@ def librarian_dashboard(request):
     Displays information about all authors, librarians, and handles author creation.
     """
     if not request.user.is_authenticated or request.user.role != 1:
-        messages.error(request, "Access denied. This page is for librarians only.")
+        messages.error(request, "Доступ обмежено. Ця сторінка призначена лише для бібліотекарів.")
         return redirect('home')
 
     if request.method == 'POST':
@@ -18,18 +18,18 @@ def librarian_dashboard(request):
         patronymic = request.POST.get('patronymic', '').strip()
 
         if not name or len(name) > 20:
-            messages.error(request, "Name is required and must not exceed 20 characters.")
+            messages.error(request, "Ім'я є обов'язковим і не повинно перевищувати 20 символів.")
         elif not surname or len(surname) > 20:
-            messages.error(request, "Surname is required and must not exceed 20 characters.")
+            messages.error(request, "Прізвище є обов'язковим і не повинно перевищувати 20 символів.")
         elif len(patronymic) > 20:
-            messages.error(request, "Patronymic must not exceed 20 characters.")
+            messages.error(request, "По-батькові не повинно перевищувати 20 символів.")
         else: 
             author = Author.create(name=name, surname=surname, patronymic=patronymic)
             if author:
-                messages.success(request, f"Author {surname} added successfully!")
+                messages.success(request, f"Автор {surname} доданий успішно!")
                 return redirect('librarian_dashboard')
             else:
-                messages.error(request, "Error in database while creating author.")
+                messages.error(request, "Помилка в базі даних під час створення автора.")
 
     authors = Author.objects.all()
     librarians = CustomUser.objects.filter(role=1)
@@ -38,26 +38,26 @@ def librarian_dashboard(request):
         'authors': authors,
         'librarians': librarians
     }
-    return render(request, 'librarian_dashboard.html', context)
+    return render(request, 'author/librarian_dashboard.html', context)
 
 
 def delete_author(request, author_id):
     """Deletes an author only if there is a secure POST request and no linked books."""
     if not request.user.is_authenticated or request.user.role != 1:
-        messages.error(request, "Action available only for librarians.")
+        messages.error(request, "Дія доступна лише для бібліотекарів.")
         return redirect('home')
 
     if request.method == 'POST':
         author = get_object_or_404(Author, pk=author_id)
         
         if author.books.exists():
-            messages.error(request, f"Cannot delete author {author.surname}!")
+            messages.error(request, f"Неможливо видалити автора {author.surname}!")
         else:
             author.delete()
-            messages.success(request, f"Author {author.surname} deleted successfully!")
+            messages.success(request, f"Автор {author.surname} успішно видалений!")
             
     return redirect('librarian_dashboard')
 
 def home(request):
     """Simple home page of the site."""
-    return render(request, 'home.html')
+    return render(request, 'author/home.html')

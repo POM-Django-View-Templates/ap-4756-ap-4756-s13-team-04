@@ -14,6 +14,7 @@
 
     <nav>
         <a href="{% url 'home' %}">Головна</a>
+        <a href="{% url 'all_books' %}">Каталог книг</a>
         {% if request.user.is_authenticated %}
         <span class="user-info">
             Вітаємо, <strong>{{ request.user.email }}</strong>
