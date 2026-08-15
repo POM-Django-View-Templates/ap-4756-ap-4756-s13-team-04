@@ -29,12 +29,11 @@
                 <th>ID</th>
                 <th>Назва</th>
                 <th>Автори</th>
-                <th>Кількість в наявності</th>
                 <th>Дія</th>
             </tr>
         </thead>
-        <tbody>
-            {% for book in books %}
+                <tbody>
+                {% for book in books %}
                 <tr>
                     <td>{{ book.id }}</td>
                     <td><strong>{{ book.name }}</strong></td>
@@ -45,9 +44,17 @@
                             Автор не вказаний
                         {% endfor %}
                     </td>
-                    <td>{{ book.count }} шт.</td>
                     <td>
-                        <a href="{% url 'book_detail' book.id %}">Переглянути</a>
+                        <div class="actions-container">
+                            <a href="{% url 'book_detail' book.id %}" class="btn-view">Переглянути</a>
+                            {% if request.user.is_authenticated and request.user.role != 1 %}
+                                <a href="{% url 'create_order' book.id %}" 
+                                   class="btn-order" 
+                                   onclick="return confirm('Ви впевнені, що хочете замовити книгу «{{ book.name }}»?');">
+                                    Замовити
+                                </a>
+                            {% endif %}
+                        </div>
                     </td>
                 </tr>
             {% empty %}
@@ -56,5 +63,6 @@
                 </tr>
             {% endfor %}
         </tbody>
+
     </table>
 {% endblock %}

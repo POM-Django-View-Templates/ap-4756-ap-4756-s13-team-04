@@ -1,5 +1,4 @@
 from django.db import models, DataError
-
 from authentication.models import CustomUser
 from book.models import Book
 

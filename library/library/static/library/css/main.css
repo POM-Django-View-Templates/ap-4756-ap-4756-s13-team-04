@@ -264,3 +264,39 @@ table button:hover {
     color: #d35400;
     text-decoration: underline;
 }
+
+.btn-view {
+    color: #4a90e2;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.btn-view:hover {
+    color: #357abd;
+    text-decoration: underline;
+}
+
+.btn-order {
+    background-color: #2ecc71;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 5px 12px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 13px;
+    display: inline-block;
+    transition: background-color 0.2s ease;
+}
+
+.btn-order:hover {
+    background-color: #27ae60;
+    color: #ffffff;
+}
+
+.actions-container {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+}

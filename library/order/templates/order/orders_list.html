@@ -11,6 +11,11 @@
             Мої замовлення книг
         {% endif %}
     </h1>
+    {% if request.user.role != 1 %}
+            <a href="{% url 'all_books' %}" class="btn-create-order" style="padding: 10px 15px; background-color: #28a745; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
+                + Замовити нову книгу
+            </a>
+        {% endif %}
     <table>
         <thead>
             <tr>
