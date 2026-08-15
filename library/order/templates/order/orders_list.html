@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Замовлення книг{% endblock %}
+
+{% block content %}
+    <h1>
+        {% if request.user.role == 1 %}
+            Управління замовленнями бібліотеки
+        {% else %}
+            Мої замовлення книг
+        {% endif %}
+    </h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID замовлення</th>
+                <th>Книга</th>
+                {% if request.user.role == 1 %}
+                    <th>Читач (Email)</th>
+                <th>ID читача</th>
+                {% endif %}
+                <th>Дата замовлення</th>
+                <th>Планове повернення</th>
+                <th>Фактичне повернення</th>
+                <th style="text-align: center;">Статус / Дія</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+                <tr>
+                    <td>{{ order.id }}</td>
+                    <td><strong>«{{ order.book.name }}»</strong></td>
+                    {% if request.user.role == 1 %}
+                        <td>{{ order.user.email }}</td>
+                        <td>{{ order.user.id }}</td>
+                    {% endif %}
+                    <td>{{ order.created_at|date:"d.m.Y H:i" }}</td>
+                    <td>{{ order.plated_end_at|date:"d.m.Y" }}</td>
+                    <td>
+                        {% if order.end_at %}
+                            {{ order.end_at|date:"d.m.Y H:i" }}
+                        {% else %}
+                            <span class="no-date">—</span>
+                        {% endif %}
+                    </td>
+                    <td style="text-align: center;">
+                        {% if order.end_at %}
+                            <span class="status-returned">Повернуто</span>
+                        {% else %}
+                            {% if request.user.role == 1 %}
+                                <form method="POST" action="{% url 'close_order' order.id %}" style="display:inline;" onsubmit="return confirm('Підтвердити повернення книги?');">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn-close-order">Закрити замовлення</button>
+                                </form>
+                            {% else %}
+                                <span class="status-on-hand">На руках</span>
+                            {% endif %}
+                        {% endif %}
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="8">Замовлень не знайдено.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

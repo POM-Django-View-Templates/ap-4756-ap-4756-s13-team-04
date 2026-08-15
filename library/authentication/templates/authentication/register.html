@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Реєстрація користувача{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'authentication/css/auth.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="auth-wrapper">
+        <div class="auth-card">
+            <h3>Реєстрація нового користувача</h3>
+            <form method="POST" action="{% url 'register' %}" class="auth-form">
+                {% csrf_token %}
+                <label>Email (Логін):
+                    <input type="email" name="email">
+                </label>
+                <label>Пароль:
+                    <input type="password" name="password" required placeholder="Мінімум 6 символів">
+                </label>
+                <label>Прізвище:
+                    <input type="text" name="last_name" required maxlength="20">
+                </label>
+                <label>Ім'я:
+                    <input type="text" name="first_name" required maxlength="20">
+                </label>
+                <label>По батькові:
+                    <input type="text" name="middle_name" required maxlength="20">
+                </label>
+                <label>Оберіть роль у системі:
+                    <select name="role" class="auth-select">
+                        <option value="0">Звичайний користувач (Гість)</option>
+                        <option value="1">Бібліотекар (Адміністратор)</option>
+                    </select>
+                </label>
+                <button type="submit" class="btn-auth btn-register">Зареєструватися</button>
+            </form>
+            <p class="auth-footer">
+                Вже є профіль? <a href="{% url 'login' %}">Увійти</a>
+            </p>
+        </div>
+    </div>
+{% endblock %}

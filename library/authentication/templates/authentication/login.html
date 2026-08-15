@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Вхід до бібліотеки{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'authentication/css/auth.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="auth-wrapper">
+        <div class="auth-card">
+            <h3>Вхід у кабінет</h3>
+            <form method="POST" action="{% url 'login' %}" class="auth-form" autocomplete="off">
+                {% csrf_token %}
+                <label>Email:
+                    <input type="email" name="email" required autocomplete="off">
+                </label>
+                <label>Пароль:
+                    <input type="password" name="password" required autocomplete="new-password">
+                </label>
+                <button type="submit" class="btn-auth">Увійти</button>
+            </form>
+            <p class="auth-footer">Ще не маєте акаунту? <a href="{% url 'register' %}">Зареєструватися</a>
+            </p>
+        </div>
+    </div>
+{% endblock %}

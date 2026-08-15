@@ -3,13 +3,8 @@
 
 {% block title %}Кабінет бібліотекаря{% endblock %}
 
-{% block extra_css %}
-    <link rel="stylesheet" href="{% static 'author/css/librarian_dashboard.css' %}">
-{% endblock %}
-
 {% block content %}
     <h1>Управління авторами</h1>
-
     <h3>Додати нового автора</h3>
     <form method="POST" action="{% url 'librarian_dashboard' %}" class="form-create">
         {% csrf_token %}
@@ -19,7 +14,6 @@
         <button type="submit" class="btn-create">Створити</button>
     </form>
     <hr>
-
     <h3>Список авторів</h3>
     <table>
         <thead>
@@ -58,27 +52,4 @@
     </table>
     <br>
 
-    <h3>Список бібліотекарів</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Прізвище та Ім'я</th>
-                <th>Email</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for librarian in librarians %}
-                <tr>
-                    <td>{{ librarian.id }}</td>
-                    <td>{{ librarian.last_name }} {{ librarian.first_name }}</td>
-                    <td>{{ librarian.email }}</td>
-                </tr>
-            {% empty %}
-                <tr>
-                    <td colspan="3">Бібліотекарів не знайдено.</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
 {% endblock %}

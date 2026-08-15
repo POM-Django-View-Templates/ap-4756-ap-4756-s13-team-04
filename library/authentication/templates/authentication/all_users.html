@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Управління користувачами{% endblock %}
+
+{% block content %}
+    <h1>Список усіх користувачів сайту</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Прізвище та Ім'я</th>
+                <th>Email (Логін)</th>
+                <th>Роль</th>
+                <th>Статус</th>
+                <th>Дія</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for u in users %}
+                <tr>
+                    <td>{{ u.id }}</td>
+                    <td>{{ u.last_name }} {{ u.first_name }}</td>
+                    <td>{{ u.email }}</td>
+                    <td>
+                        {% if u.role == 1 %}
+                            <span style="color: #e67e22; font-weight: 600;">Бібліотекар</span>
+                        {% else %}
+                            <span style="color: #4a90e2; font-weight: 600;">Читач (Гість)</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if u.is_active %}
+                            <span style="color: #2ecc71; font-weight: 600;">Активний</span>
+                        {% else %}
+                            <span style="color: #ef4444; font-weight: 600;">Заблокований</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'user_detail' u.id %}">Переглянути</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="6">Користувачів не знайдено.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

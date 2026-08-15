@@ -5,37 +5,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Бібліотека{% endblock %}</title>
-    
     <link rel="stylesheet" href="{% static 'library/css/main.css' %}">
-    
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-
     <nav>
-        <a href="{% url 'home' %}">Головна</a>
+        <a href="{% url 'home' %}">Головна</a> | 
         <a href="{% url 'all_books' %}">Каталог книг</a>
+        
         {% if request.user.is_authenticated %}
-        <span class="user-info">
-            Вітаємо, <strong>{{ request.user.email }}</strong>
-            {% if request.user.role == 1 %}
-                | <a href="{% url 'librarian_dashboard' %}">Панель керування</a>
-            {% endif %}
-        </span>
+        | <a href="{% url 'orders_list' %}">Замовлення</a>
+        {% endif %}
+
+        {% if request.user.is_authenticated %}
+            <span class="user-info">Вітаємо, <strong>{{ request.user.email }}</strong> 
+                {% if request.user.role == 1 %}
+                    (Бібліотекар) | 
+                    <a href="{% url 'librarian_dashboard' %}">Панель керування</a> | 
+                    <a href="{% url 'all_users' %}">Користувачі</a>
+                {% else %}
+                    (Читач)
+                {% endif %}
+                | <a href="{% url 'logout' %}" style="color: #ef4444;">Вихід</a>
+            </span>
         {% else %}
-            <a href="#">Вхід</a>
+            <span class="user-info">
+                <a href="{% url 'login' %}">Вхід</a> | 
+                <a href="{% url 'register' %}" style="color: #2ecc71;">Реєстрація</a>
+            </span>
         {% endif %}
     </nav>
-    <hr>
 
     {% if messages %}
-    <div class="messages-container">
-        {% for message in messages %}
-            <div class="message {{ message.tags }}">
-                {{ message }}
-            </div>
-        {% endfor %}
-    </div>
+        <div class="messages-container">
+            {% for message in messages %}
+                <div class="message {{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
     {% endif %}
 
     {% block content %}
@@ -43,3 +51,4 @@
 
 </body>
 </html>
+

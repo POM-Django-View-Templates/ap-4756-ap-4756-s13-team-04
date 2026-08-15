@@ -3,22 +3,14 @@
 
 {% block title %}Книги користувача {{ target_user.email }}{% endblock %}
 
-{% block extra_css %}
-    <link rel="stylesheet" href="{% static 'author/css/librarian_dashboard.css' %}">
-{% endblock %}
-
 {% block content %}
     <div>
-        <a href="{% url 'librarian_dashboard' %}">
-            ← Назад до Кабінету
-        </a>
+        <a href="{% url 'librarian_dashboard' %}">← Назад до Кабінету</a>
         <br><br>
-        
         <h1>Книги на руках у користувача</h1>
         <p>
             Читач: <strong>{{ target_user.first_name|default:"" }} {{ target_user.last_name|default:"" }}</strong> ({{ target_user.email }})
         </p>
-
         <table>
             <thead>
                 <tr>
@@ -42,9 +34,7 @@
                     </tr>
                 {% empty %}
                     <tr>
-                        <td colspan="5">
-                            Цей користувач повернув усі книги. На руках нічого немає.
-                        </td>
+                        <td colspan="5">Цей користувач повернув усі книги. На руках нічого немає.</td>
                     </tr>
                 {% endfor %}
             </tbody>

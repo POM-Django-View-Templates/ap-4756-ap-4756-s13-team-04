@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Профіль користувача #{{ target_user.id }}{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'book/css/book_detail.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="book-card">
+        <a href="{% url 'all_users' %}" class="back-link">← Назад до списку користувачів</a>
+        <h1 class="book-title">Картка користувача №{{ target_user.id }}</h1>
+        <div class="book-meta">
+            <p class="meta-item"><strong>Прізвище:</strong> {{ target_user.last_name }}</p>
+            <p class="meta-item"><strong>Ім'я:</strong> {{ target_user.first_name }}</p>
+            <p class="meta-item"><strong>По батькові:</strong> {{ target_user.middle_name|default:"—" }}</p>
+            <p class="meta-item"><strong>Електронна пошта (Email):</strong> {{ target_user.email }}</p>
+            <p class="meta-item"><strong>Роль у системі:</strong> 
+                <span class="count-badge">
+                    {% if target_user.role == 1 %}Бібліотекар{% else %}Читач{% endif %}
+                </span>
+            </p>
+            <p class="meta-item"><strong>Дата реєстрації:</strong> {{ target_user.created_at|date:"d.m.Y H:i" }}</p>
+            <p class="meta-item"><strong>Останнє оновлення:</strong> {{ target_user.updated_at|date:"d.m.Y H:i" }}</p>
+            <p class="meta-item"><strong>Статус облікового запису:</strong> 
+                {% if target_user.is_active %}Active{% else %}Inactive{% endif %}
+            </p>
+        </div>
+        <hr>
+        <a href="{% url 'user_books' target_user.id %}">Переглянути книги на руках</a>
+    </div>
+{% endblock %}
